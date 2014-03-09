@@ -82,6 +82,7 @@
   height: 40px; }
 #board .category {
   color: #555555;
+  font-weight: bold;
   line-height: 40px;
   padding-right: 10px;
   text-align: right; }
