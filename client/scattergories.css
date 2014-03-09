@@ -1,0 +1,141 @@
+#lobby,
+#ready,
+#board,
+#judgment,
+#results {
+  margin: 15px auto;
+  max-width: 300px;
+  width: 90%; }
+
+#lobby .title {
+  font-family: Georgia, serif;
+  font-size: 50px;
+  margin-bottom: 15px;
+  text-align: center; }
+#lobby .header {
+  color: #555555;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 15px; }
+#lobby .sub-header {
+  color: #555555;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px; }
+#lobby .room {
+  color: blue; }
+#lobby #name-input {
+  margin: 0 auto 25px;
+  width: 100%; }
+#lobby #startgame {
+  margin-bottom: 50px;
+  width: 100%; }
+#lobby .player {
+  font-size: 20px; }
+
+#ready {
+  text-align: center; }
+  #ready .header {
+    font-family: Georgia, serif;
+    font-size: 30px;
+    font-weight: bold; }
+  #ready .clock {
+    color: blue;
+    font-family: Georgia;
+    font-size: 42px;
+    margin-bottom: 25px; }
+  #ready .sub-header {
+    color: #555555;
+    font-size: 24px;
+    font-weight: bold; }
+  #ready .player {
+    color: #888888;
+    font-size: 18px;
+    margin: 5px 0; }
+
+#board #categories {
+  float: left;
+  width: 75%; }
+#board #answers {
+  float: right;
+  width: 25%; }
+#board #board-info {
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: bold; }
+#board .letter {
+  float: left;
+  font-size: 30px;
+  padding-right: 10px;
+  text-align: right;
+  width: 75%; }
+#board .clock {
+  color: blue;
+  float: right;
+  font-size: 30px;
+  width: 25%; }
+#board .category, #board .answer {
+  height: 40px; }
+#board .category {
+  color: #555555;
+  line-height: 40px;
+  padding-right: 10px;
+  text-align: right; }
+#board .answer input {
+  height: 30px;
+  margin: 5px 0;
+  padding: 2px;
+  width: 80px; }
+
+#judgment {
+  color: #888888; }
+  #judgment .header {
+    color: #000;
+    font-family: Georgia, serif;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px; }
+  #judgment .description {
+    margin-bottom: 10px; }
+  #judgment .category {
+    margin: 10px 0; }
+  #judgment .category-name {
+    color: #555555;
+    font-size: 20px;
+    font-weight: bold; }
+  #judgment .category-answer {
+    font-size: 18px;
+    margin-left: 20px; }
+  #judgment .category-answer.rejected {
+    color: #cccccc;
+    text-decoration: line-through; }
+  #judgment #submit-judgment {
+    margin-top: 25px;
+    width: 100%; }
+  #judgment .player {
+    color: #555555;
+    font-size: 20px;
+    font-weight: bold; }
+
+#results .header {
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px; }
+#results .answer-category {
+  color: #555555;
+  font-weight: bold; }
+#results .answer-entry {
+  color: #888888;
+  margin-left: 20px; }
+#results .status-rejected, #results .status-duplicate {
+  color: red; }
+#results .status-accepted {
+  color: green; }
+#results #return-to-lobby {
+  width: 100%; }
+#results .result {
+  margin-bottom: 25px; }
+#results .empty {
+  color: #cccccc;
+  font-style: italic; }

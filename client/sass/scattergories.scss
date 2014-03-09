@@ -1,0 +1,223 @@
+$categories-width       : 75%;
+$answers-width          : 25%;
+$grey                   : #888;
+$dark-grey              : #555;
+$light-grey             : #ccc;
+
+#lobby,
+#ready,
+#board,
+#judgment,
+#results {
+    margin: 15px auto;
+    max-width: 300px;
+    width: 90%;
+}
+
+#lobby {
+    .title {
+        font-family: Georgia, serif;
+        font-size: 50px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .header {
+        color: $dark-grey;
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .sub-header {
+        color: $dark-grey;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .room {
+        color: blue;
+    }
+
+    #name-input {
+        margin: 0 auto 25px;
+        width: 100%;
+    }
+
+    #startgame {
+        margin-bottom: 50px;
+        width: 100%;
+    }
+
+    .player {
+        font-size: 20px;
+    }
+}
+
+#ready {
+    text-align: center;
+
+    .header {
+        font-family: Georgia, serif;
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .clock {
+        color: blue;
+        font-family: Georgia;
+        font-size: 42px;
+        margin-bottom: 25px;
+    }
+
+    .sub-header {
+        color: $dark-grey;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .player {
+        color: $grey;
+        font-size: 18px;
+        margin: 5px 0;
+    }
+}
+
+#board {
+    #categories {
+        float: left;
+        width: $categories-width;
+    }
+
+    #answers {
+        float: right;
+        width: $answers-width;
+    }
+
+    #board-info {
+        font-family: Georgia, serif;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .letter {
+        float: left;
+        font-size: 30px;
+        padding-right: 10px;
+        text-align: right;
+        width: $categories-width;
+    }
+
+    .clock {
+        color: blue;
+        float: right;
+        font-size: 30px;
+        width: $answers-width;
+    }
+
+    .category, .answer {
+        height: 40px;
+    }
+
+    .category {
+        color: $dark-grey;
+        line-height: 40px;
+        padding-right: 10px;
+        text-align: right;
+    }
+
+    .answer input {
+        height: 30px;
+        margin: 5px 0;
+        padding: 2px;
+        width: 80px;
+    }
+}
+
+#judgment {
+    color: $grey;
+
+    .header {
+        color: #000;
+        font-family: Georgia, serif;
+        font-size: 30px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        margin-bottom: 10px;
+    }
+
+    .category {
+        margin: 10px 0;
+    }
+
+    .category-name {
+        color: $dark-grey;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .category-answer {
+        font-size: 18px;
+        margin-left: 20px; 
+    }
+
+    .category-answer.rejected {
+        color: $light-grey;
+        text-decoration: line-through;
+    }
+
+    #submit-judgment {
+        margin-top: 25px;
+        width: 100%;
+    }
+
+    .player {
+        color: $dark-grey;
+        font-size: 20px;
+        font-weight: bold;
+    }    
+}
+
+#results {
+    .header {
+        font-family: Georgia, serif;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .answer-category {
+        color: $dark-grey;
+        font-weight: bold;
+    }
+
+    .answer-entry {
+        color: $grey;
+        margin-left: 20px;
+    }
+
+    .status-rejected, .status-duplicate {
+        color: red;
+    }
+
+    .status-accepted {
+        color: green;
+    }
+
+    #return-to-lobby {
+        width: 100%;
+    }
+
+    .result {
+        margin-bottom: 25px;
+    }
+
+    .empty {
+        color: $light-grey;
+        font-style: italic;
+    }
+}

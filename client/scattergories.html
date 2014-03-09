@@ -1,0 +1,146 @@
+<head>
+  <title>Scattergories</title>
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0, width=device-width">
+</head>
+
+<body>
+  {{> page}}
+</body>
+
+<template name="page">
+  {{> lobby }}
+  {{> ready }}
+  {{> board }}
+  {{> judgment }}
+  {{> results }}
+</template>
+
+<template name="lobby">
+  {{#if show}}
+  <div id="lobby">
+    <div class="title">Scattergories</div>
+    <div class="header">Enter name:</div>
+    <input type="text" id="name-input" class="form-control input-lg">
+    <button id="startgame" class="btn btn-lg btn-success" {{#if disabled}}disabled{{/if}}>
+      {{#if waiting}}Start Game{{else}}Play Solo{{/if}}
+    </button>
+    <div class="other-players">
+      {{#if room}}
+      <div class="sub-header">Currently in room <span class="room">{{room}}</span></div>
+      {{/if}}
+      {{#if waiting}}
+      <div class="sub-header">Other players in room:</div>
+      {{#each waiting}}
+      <div class="player">{{name}}</div>
+      {{/each}}
+      {{else}}
+      <div class="sub-header">No other players in room</div>
+      {{/if}}
+    </div>
+  </div>
+  {{/if}}
+</template>
+
+<template name="ready">
+  {{#if show}}
+  <div id="ready">
+    <div class="header">Game begins in</div>
+    <div class="clock">{{ready_clock}}</div>
+    {{#if others}}
+    <div class="sub-header">Playing with</div>
+    {{#each others}}
+      <div class="player">{{.}}
+    {{/each}}
+    {{/if}}
+  </div>
+  {{/if}}
+</template>
+
+<template name="board">
+  {{#if show}}
+  <div id="board">
+    <div id="board-info">
+      <div class="letter">
+        Letter: {{ letter }}
+      </div>
+      <div class="clock">
+        {{ clock }}
+      </div>
+    </div>
+    <div id="categories">
+      {{#each categories}}
+      <div class="category">{{.}}</div>
+      {{/each}}
+    </div>
+    {{#constant}}
+    <div id="answers">
+      {{#each answers}}
+      <div class="answer">
+        <input type="text" class="answer-input">
+      </div>
+      {{/each}}
+    </div>
+    {{/constant}}
+  </div>
+  {{/if}}
+</template>
+
+<template name="judgment">
+  {{#if show}}
+  <div id="judgment">
+    <div class="header">Judgment phase</div>
+    {{#if waiting}}
+    <div class="description">
+      Waiting for the following players:
+    </div>
+    {{#each players}}
+      <div class="player">{{.}}</div>
+    {{/each}}
+    {{else}}
+    <div class="description">
+      Answers for each category are listed below. <br><br>
+      Reject answers that <br>
+      - don't match the category. <br>
+      - don't start with the letter {{letter}}. <br>
+      - duplicate other answers in the category <br><br>
+      Click on an answer to reject it.
+    </div>
+    {{#constant}}
+    {{#each categories}}
+    <div class="category" {{#if empty}}style="display: none;"{{/if}}>
+      <div class="category-name">{{name}}</div>
+      {{#each answers}}
+      <div class="category-answer">{{.}}</div>
+      {{/each}}
+    </div>
+    {{/each}}
+    {{/constant}}
+    <button id="submit-judgment" class="btn btn-lg btn-success">Submit Judgment</button>
+    {{/if}}
+  </div>
+  {{/if}}
+</template>
+
+<template name="results">
+  {{#if show}}
+  <div id="results">
+    {{#each players}}
+    <div class="result">
+      <div class="header">{{name}} ({{score}} points)</div>
+      {{#each answers}}
+      <div class="answer">
+        <div class="answer-category">
+          <span class="glyphicon {{glyphicon status}} status-{{status}}" title="{{status}}"></span>
+          {{category}}
+        </div>
+        <div class="answer-entry {{style entry}}">
+          {{format entry}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    {{/each}}
+    <button id="return-to-lobby" class="btn btn-lg btn-primary">Return to Lobby</button>
+  </div>
+  {{/if}}
+</template>
