@@ -9,14 +9,14 @@ var setGameInterval = function(gameId) {
 
   // wind down the game clock
   var clock = game.clock;
-  var ready_clock = game.ready_clock;
+  var readyClock = game.ready_clock;
   var interval = Meteor.setInterval(function () {
-      if (ready_clock > 0) {
-        ready_clock -= 1;
+      if (readyClock > 0) {
+        readyClock -= 1;
       } else {
         clock -= 1;
       }
-      Games.update(gameId, {$set: {clock: clock, ready_clock: ready_clock}});
+      Games.update(gameId, {$set: {clock: clock, ready_clock: readyClock}});
 
       // end of game
       if (clock == -5) {
@@ -24,24 +24,23 @@ var setGameInterval = function(gameId) {
         Meteor.clearInterval(interval);
         var game = Games.findOne(gameId);
         if (game.state == 'active') {
-          force_judgment(game);
+          forceJudgment(game);
         }
       }
     }, 1000);
 }
 
 Meteor.methods({
-  start_new_game: function (room) {
+  startNewGame: function (room) {
     // create a new game w/ fresh board
-    var gameId = Games.insert({categories: new_board(),
-                               letter: new_letter(),
+    var gameId = Games.insert({categories: newBoard(),
+                               letter: newLetter(),
                                submitted: [],
                                judgments: [],
                                players: [],
                                state: 'active',
                                clock: timer,
-                               ready_clock: 3
-                             });
+                               ready_clock: 3});
 
     Players.update({game_id: null, name: {$ne: ''}, room: room, idle: false},
                    {$set: {game_id: gameId}},
@@ -55,7 +54,7 @@ Meteor.methods({
     return gameId;
   },
 
-  submit_answers: function(playerId, gameId, answers) {
+  submitAnswers: function(playerId, gameId, answers) {
     var game = Games.findOne(gameId);
     var submittedAnswers = game.submitted;
     var submitted = false;
@@ -66,11 +65,11 @@ Meteor.methods({
       }
     }
     if (!submitted) {
-      add_answers(playerId, gameId, answers);
+      addAnswers(playerId, gameId, answers);
     }
   },
 
-  submit_judgment: function(playerId, gameId, rejected) {
+  submitJudgment: function(playerId, gameId, rejected) {
     var game = Games.findOne(gameId);
     var judgments = game.judgments;
     var judged = false;
@@ -81,11 +80,11 @@ Meteor.methods({
       }
     }
     if (!judged) {
-      add_judgment(playerId, gameId, rejected);
+      addJudgment(playerId, gameId, rejected);
     }
   },
 
-  keepalive: function (player_id) {
+  keepAlive: function (player_id) {
     check(player_id, String);
     Players.update(player_id,
                   {$set: {last_keepalive: (new Date()).getTime(),
@@ -95,29 +94,29 @@ Meteor.methods({
 
 Meteor.setInterval(function () {
   var now = (new Date()).getTime();
-  var idle_threshold = now - 30*1000; // 30 sec
-  var remove_threshold = now - 60*60*1000; // 1 hr
-  var judgment_theshold = now - 2*60*1000; // 2 min
+  var idleThreshold = now - 30*1000; // 30 sec
+  var removeThreshold = now - 60*60*1000; // 1 hr
+  var judgmentTheshold = now - 2*60*1000; // 2 min
 
-  var players = Players.find({last_keepalive: {$lt: idle_threshold}, game_id: {$exists: true}}).fetch();
+  var players = Players.find({last_keepalive: {$lt: idleThreshold}, game_id: {$exists: true}}).fetch();
   for (var ii = 0, len = players.length; ii < len; ii++) {
     var game = Games.findOne(players[ii].game_id);
     if (game) {
-      force_player(game, players[ii]._id);
+      forcePlayer(game, players[ii]._id);
     }
   }
-  Players.update({last_keepalive: {$lt: idle_threshold}},
+  Players.update({last_keepalive: {$lt: idleThreshold}},
                  {$set: {idle: true}, $unset: {game_id: ''}},
                  {multi: true});
 
-  var games = Games.find({judgment_start: {$lt: judgment_theshold}, state: 'judgment'}).fetch();
+  var games = Games.find({judgment_start: {$lt: judgmentTheshold}, state: 'judgment'}).fetch();
   for (var ii = 0, len = games.length; ii < len; ii++) {
-    force_result(games[ii]);
+    forceResult(games[ii]);
   }
 
   // XXX need to deal with people coming back!
-  Players.remove({last_keepalive: {$lt: remove_threshold}});
-  Games.remove({judgment_start: {$lt: remove_threshold}});
+  Players.remove({last_keepalive: {$lt: removeThreshold}});
+  Games.remove({judgment_start: {$lt: removeThreshold}});
 }, 30*1000);
 
 Meteor.startup(function () {

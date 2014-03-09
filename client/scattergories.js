@@ -68,7 +68,7 @@ Template.lobby.events({
     Players.update(playerId(), {$set: {name: name}});
   },
   'click #startgame, tap #startgame': function() {
-    Meteor.call('start_new_game', room());
+    Meteor.call('startNewGame', room());
   }
 });
 
@@ -108,7 +108,7 @@ Template.board.clock = function() {
       answers.push($(this).val());
       $(this).attr('disabled', 'disabled');
     });
-    Meteor.call('submit_answers', playerId(), game()._id, answers);    
+    Meteor.call('submitAnswers', playerId(), game()._id, answers);    
     return;
   }
 
@@ -221,7 +221,7 @@ Template.judgment.events({
       });
       rejected.push(r);
     });
-    Meteor.call('submit_judgment', playerId(), game()._id, rejected);
+    Meteor.call('submitJudgment', playerId(), game()._id, rejected);
   }
 });
 
@@ -299,6 +299,6 @@ Meteor.startup(function() {
 
   Meteor.setInterval(function() {
     if (Meteor.status().connected)
-      Meteor.call('keepalive', playerId);
+      Meteor.call('keepAlive', playerId);
   }, 20*1000);
 });

@@ -6,7 +6,7 @@ Players = new Meteor.Collection('players');
 Games = new Meteor.Collection('games');
 // {categories: [...], clock: 180}
 
-new_board = function() {
+newBoard = function() {
   var categorySet = {};
   var numCategories = categories.length;
   var count = 0;
@@ -25,11 +25,11 @@ new_board = function() {
   return result;
 };
 
-new_letter = function() {
+newLetter = function() {
   return diceLetters[Math.floor(Math.random() * 20)];
 };
 
-add_answers = function(playerId, gameId, answers) {
+addAnswers = function(playerId, gameId, answers) {
   var normalizedAnswers = [];
   for (var ii = 0; ii < 12; ii++) {
     normalizedAnswers.push({entry: answers[ii].trim().toLowerCase()});
@@ -40,27 +40,27 @@ add_answers = function(playerId, gameId, answers) {
   );
   game = Games.findOne(gameId);
   if (game.players.length == game.submitted.length) {
-    var duplicateAnswers = compute_duplicate_answers(game);
+    var duplicateAnswers = computeDuplicateAnswers(game);
     Games.update(gameId, {$set: {state: 'judgment',
                                  duplicates: duplicateAnswers,
                                  judgment_start: (new Date()).getTime()}});
   }
 };
 
-add_judgment = function(playerId, gameId, rejected) {
+addJudgment = function(playerId, gameId, rejected) {
   Games.update(
     gameId,
     { $push: { judgments: { player_id: playerId, rejected: rejected }}}
   );
   game = Games.findOne(gameId);
   if (game.players.length == game.judgments.length) {
-    var rejectedAnswers = compute_rejected_answers(game);
-    var submitted = compute_scores(game, rejectedAnswers);
+    var rejectedAnswers = computeRejectedAnswers(game);
+    var submitted = computeScores(game, rejectedAnswers);
     Games.update(gameId, {$set: {state: 'done', rejected: rejectedAnswers, submitted: submitted }});
   }
 };
 
-compute_duplicate_answers = function(game) {
+var computeDuplicateAnswers = function(game) {
   var submitted = game.submitted;
   var result = [];
   for (var ii = 0; ii < 12; ii++) {
@@ -89,7 +89,7 @@ compute_duplicate_answers = function(game) {
   return result;
 };
 
-compute_rejected_answers = function(game) {
+var computeRejectedAnswers = function(game) {
   var threshold = Math.ceil(game.players.length / 2);
   var result = [];
   for (var ii = 0; ii < 12; ii++) {
@@ -116,14 +116,14 @@ compute_rejected_answers = function(game) {
   return result;
 };
 
-compute_scores = function(game, rejected_answers) {
+var computeScores = function(game, rejected_answers) {
   var submitted = game.submitted;
   var duplicates = game.duplicates;
   var numPlayers = game.submitted.length;
   var categories = game.categories;
   for (var ii = 0; ii < 12; ii++) {
-    var rejectedSet = to_set(rejected_answers[ii]);
-    var duplicateSet = to_set(duplicates[ii]);
+    var rejectedSet = toSet(rejected_answers[ii]);
+    var duplicateSet = toSet(duplicates[ii]);
     for (var jj = 0; jj < numPlayers; jj++) {
       var s = submitted[jj];
       if (s.score == null) {
@@ -144,33 +144,33 @@ compute_scores = function(game, rejected_answers) {
   return submitted;
 };
 
-force_judgment = function(game) {
+forceJudgment = function(game) {
   if (game.players.length > game.submitted.length) {
-    var missingPlayers = missing_players(game, game.submitted);
+    var missing = missingPlayers(game, game.submitted);
     var emptyAnswers = [];
     for (var ii = 0; ii < 12; ii++) {
       emptyAnswers.push('');
     }
-    for (var ii = 0, len = missingPlayers.length; ii < len; ii++) {
-      add_answers(missingPlayers[ii], game._id, emptyAnswers);
+    for (var ii = 0, len = missing.length; ii < len; ii++) {
+      addAnswers(missing[ii], game._id, emptyAnswers);
     }
   }
 };
 
-force_result = function(game) {
+forceResult = function(game) {
   if (game.players.length > game.judgments.length) {
-    var missingPlayers = missing_players(game, game.judgments);
+    var missing = missingPlayers(game, game.judgments);
     var emptyRejections = [];
     for (var ii = 0; ii < 12; ii++) {
       emptyRejections.push('');
     }
-    for (var ii = 0, len = missingPlayers.length; ii < len; ii++) {
-      add_judgment(missingPlayers[ii], game._id, emptyRejections);
+    for (var ii = 0, len = missing.length; ii < len; ii++) {
+      addJudgment(missing[ii], game._id, emptyRejections);
     }
   }
 };
 
-force_player = function(game, playerId) {
+forcePlayer = function(game, playerId) {
   var submitted = false;
   for (var ii = 0, len = game.submitted.length; ii < len; ii++) {
     if (game.submitted[ii].player_id == playerId) {
@@ -183,7 +183,7 @@ force_player = function(game, playerId) {
     for (var ii = 0; ii < 12; ii++) {
       emptyAnswers.push('');
     }
-    add_answers(playerId, game._id, emptyAnswers);
+    addAnswers(playerId, game._id, emptyAnswers);
   }
   
   var judged = false;
@@ -198,11 +198,11 @@ force_player = function(game, playerId) {
     for (var ii = 0; ii < 12; ii++) {
       emptyRejections.push('');
     }
-    add_judgment(playerId, game._id, emptyRejections);
+    addJudgment(playerId, game._id, emptyRejections);
   }
-}
+};
 
-missing_players = function(game, list) {
+var missingPlayers = function(game, list) {
   var allPlayers = {};
   for (var ii = 0, len = game.players.length; ii < len; ii++) {
     allPlayers[game.players[ii]._id] = true;
@@ -217,15 +217,15 @@ missing_players = function(game, list) {
     }
   }
   return missingPlayers;
-}
+};
 
-to_set = function(list) {
+var toSet = function(list) {
   var set = {};
   for (var ii = 0, len = list.length; ii < len; ii++) {
     set[list[ii]] = true;
   }
   return set;
-}
+};
 
 if (Meteor.isServer) {
   // publish single games
