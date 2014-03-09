@@ -19,7 +19,7 @@ var setGameInterval = function(gameId) {
       Games.update(gameId, {$set: {clock: clock, ready_clock: ready_clock}});
 
       // end of game
-      if (clock === -5) {
+      if (clock == -5) {
         // stop the clock
         Meteor.clearInterval(interval);
         var game = Games.findOne(gameId);

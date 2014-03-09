@@ -14,6 +14,13 @@ $light-grey             : #ccc;
     width: 90%;
 }
 
+@media (min-width: 1000px) {
+    #board {
+        max-width: 800px;
+        width: 800px;
+    }
+}
+
 #lobby {
     .title {
         font-family: Georgia, serif;
@@ -133,6 +140,54 @@ $light-grey             : #ccc;
         padding: 2px;
         width: 80px;
     }
+
+    @media (min-width: 1000px) {
+        #board-info {
+            margin-bottom: 10px;
+        }
+
+        .letter {
+            font-size: 36px;
+        }
+
+        .clock {
+            font-size: 36px;
+        }
+
+        #categories {
+            width: 50%;
+        }
+
+        #answers {
+            width: 50%;
+        }
+
+        .letter {
+            width: 50%;
+        }
+
+        .clock {
+            width: 50%;
+        }
+
+        .category, .answer {
+            height: 40px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .category {
+            font-size: 20px;
+            line-height: 40px;
+            padding-right: 16px;
+        }
+
+        .answer input {
+            font-size: 20px;
+            height: 30px;
+            width: 200px;
+        }
+    }
 }
 
 #judgment {
@@ -161,13 +216,18 @@ $light-grey             : #ccc;
     }
 
     .category-answer {
+        cursor: pointer;
         font-size: 18px;
         margin-left: 20px; 
-    }
 
-    .category-answer.rejected {
-        color: $light-grey;
-        text-decoration: line-through;
+        &:hover {
+            text-decoration: line-through;
+        }
+
+        &.rejected {
+            color: $light-grey;
+            text-decoration: line-through;
+        }
     }
 
     #submit-judgment {

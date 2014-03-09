@@ -7,6 +7,10 @@
   max-width: 300px;
   width: 90%; }
 
+@media (min-width: 1000px) {
+  #board {
+    max-width: 800px;
+    width: 800px; } }
 #lobby .title {
   font-family: Georgia, serif;
   font-size: 50px;
@@ -86,6 +90,33 @@
   margin: 5px 0;
   padding: 2px;
   width: 80px; }
+@media (min-width: 1000px) {
+  #board #board-info {
+    margin-bottom: 10px; }
+  #board .letter {
+    font-size: 36px; }
+  #board .clock {
+    font-size: 36px; }
+  #board #categories {
+    width: 50%; }
+  #board #answers {
+    width: 50%; }
+  #board .letter {
+    width: 50%; }
+  #board .clock {
+    width: 50%; }
+  #board .category, #board .answer {
+    height: 40px;
+    margin-top: 5px;
+    margin-bottom: 5px; }
+  #board .category {
+    font-size: 20px;
+    line-height: 40px;
+    padding-right: 16px; }
+  #board .answer input {
+    font-size: 20px;
+    height: 30px;
+    width: 200px; } }
 
 #judgment {
   color: #888888; }
@@ -104,11 +135,14 @@
     font-size: 20px;
     font-weight: bold; }
   #judgment .category-answer {
+    cursor: pointer;
     font-size: 18px;
     margin-left: 20px; }
-  #judgment .category-answer.rejected {
-    color: #cccccc;
-    text-decoration: line-through; }
+    #judgment .category-answer:hover {
+      text-decoration: line-through; }
+    #judgment .category-answer.rejected {
+      color: #cccccc;
+      text-decoration: line-through; }
   #judgment #submit-judgment {
     margin-top: 25px;
     width: 100%; }
