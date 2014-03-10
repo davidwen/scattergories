@@ -129,7 +129,6 @@ $light-grey             : #ccc;
 
     .category {
         color: $dark-grey;
-        font-weight: bold;
         line-height: 40px;
         padding-right: 10px;
         text-align: right;
@@ -179,6 +178,7 @@ $light-grey             : #ccc;
 
         .category {
             font-size: 20px;
+            font-weight: bold;
             line-height: 40px;
             padding-right: 16px;
         }
@@ -221,10 +221,6 @@ $light-grey             : #ccc;
         font-size: 18px;
         margin-left: 20px; 
 
-        &:hover {
-            text-decoration: line-through;
-        }
-
         &.rejected {
             color: $light-grey;
             text-decoration: line-through;
@@ -241,6 +237,12 @@ $light-grey             : #ccc;
         font-size: 20px;
         font-weight: bold;
     }    
+
+    @media (min-width: 1000px) {
+        .category-answer:hover {
+            text-decoration: line-through;
+        }
+    }
 }
 
 #results {
