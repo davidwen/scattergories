@@ -67,7 +67,7 @@ Template.lobby.events({
     var name = $('#name-input').val().trim();
     Players.update(playerId(), {$set: {name: name}});
   },
-  'click #startgame, tap #startgame': function() {
+  'click #startgame': function() {
     Meteor.call('startNewGame', room());
   }
 });
@@ -203,7 +203,7 @@ Template.judgment.letter = function() {
 }
 
 Template.judgment.events({
-  'click .category-answer, tap .category-answer': function(evt) {
+  'click .category-answer': function(evt) {
     var $target = $(evt.target);
     if ($target.hasClass('rejected')) {
       $target.removeClass('rejected');
@@ -212,7 +212,7 @@ Template.judgment.events({
     }
   },
 
-  'click #submit-judgment, tap #submit-judgment': function() {
+  'click #submit-judgment': function() {
     var rejected = [];
     $('.category').each(function() {
       var r = [];
@@ -273,7 +273,7 @@ Template.results.players = function() {
 };
 
 Template.results.events({
-  'click #return-to-lobby, tap #return-to-lobby': function() {
+  'click #return-to-lobby': function() {
     Players.update(playerId(), {$unset: {game_id: ''}});
   }
 });
