@@ -96,7 +96,7 @@ Meteor.setInterval(function () {
   var now = (new Date()).getTime();
   var idleThreshold = now - 30*1000; // 30 sec
   var removeThreshold = now - 60*60*1000; // 1 hr
-  var judgmentTheshold = now - 2*60*1000; // 2 min
+  var judgmentTheshold = now - 3*60*1000; // 2 min
 
   var players = Players.find({last_keepalive: {$lt: idleThreshold}, game_id: {$exists: true}}).fetch();
   for (var ii = 0, len = players.length; ii < len; ii++) {

@@ -283,6 +283,7 @@ Template.results.events({
 //////
 
 Meteor.startup(function() {
+  FastClick.attach(document.body);
   var playerId = Players.insert({name: '',
                                  room: room(),
                                  idle: false,
