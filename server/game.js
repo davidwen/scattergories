@@ -98,15 +98,8 @@ Meteor.setInterval(function () {
   var removeThreshold = now - 60*60*1000; // 1 hr
   var judgmentTheshold = now - 3*60*1000; // 2 min
 
-  var players = Players.find({last_keepalive: {$lt: idleThreshold}, game_id: {$exists: true}}).fetch();
-  for (var ii = 0, len = players.length; ii < len; ii++) {
-    var game = Games.findOne(players[ii].game_id);
-    if (game) {
-      forcePlayer(game, players[ii]._id);
-    }
-  }
   Players.update({last_keepalive: {$lt: idleThreshold}},
-                 {$set: {idle: true}, $unset: {game_id: ''}},
+                 {$set: {idle: true}},
                  {multi: true});
 
   var games = Games.find({judgment_start: {$lt: judgmentTheshold}, state: 'judgment'}).fetch();
