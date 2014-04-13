@@ -230,6 +230,11 @@ $light-grey             : #ccc;
             color: $light-grey;
             text-decoration: line-through;
         }
+
+        &.duplicate {
+            color: red;
+            text-decoration: line-through;
+        }
     }
 
     #submit-judgment {

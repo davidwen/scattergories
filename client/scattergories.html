@@ -99,7 +99,8 @@
     {{/each}}
     {{else}}
     <div class="description">
-      Answers for each category are listed below. <br><br>
+      Answers for each category are listed below. <br>
+      Duplicate answers are marked in red <br><br>
       Reject answers that <br>
       - don't match the category. <br>
       - don't start with the letter {{letter}}. <br>
@@ -111,7 +112,7 @@
     <div class="category" {{#if empty}}style="display: none;"{{/if}}>
       <div class="category-name">{{name}}</div>
       {{#each answers}}
-      <div class="category-answer">{{.}}</div>
+      <div class="category-answer {{duplicateClass}}">{{value}}</div>
       {{/each}}
     </div>
     {{/each}}

@@ -146,6 +146,9 @@
     #judgment .category-answer.rejected {
       color: #cccccc;
       text-decoration: line-through; }
+    #judgment .category-answer.duplicate {
+      color: red;
+      text-decoration: line-through; }
   #judgment #submit-judgment {
     margin-top: 25px;
     width: 100%; }

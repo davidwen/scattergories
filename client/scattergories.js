@@ -184,8 +184,9 @@ Template.judgment.categories = function() {
 
     var answers = [];
     for (var answer in answerSet) {
-      if (answerSet[answer] == true && answer != '') {
-        answers.push(answer);
+      if (answer != '') {
+        var isDuplicate = answerSet[answer] == false;
+        answers.push({value: answer, isDuplicate: isDuplicate});
       }
     }
 
@@ -200,24 +201,34 @@ Template.judgment.categories = function() {
 
 Template.judgment.letter = function() {
   return game() && game().letter;
-}
+};
+
+Template.judgment.duplicateClass = function() {
+  return this.isDuplicate ? 'duplicate' : '';
+};
 
 Template.judgment.events({
   'click .category-answer': function(evt) {
     var $target = $(evt.target);
-    if ($target.hasClass('rejected')) {
-      $target.removeClass('rejected');
-    } else {
-      $target.addClass('rejected');
+
+    if (!$target.hasClass('duplicate')) {
+      if ($target.hasClass('rejected')) {
+        $target.removeClass('rejected');
+      } else {
+        $target.addClass('rejected');
+      }
     }
   },
 
   'click #submit-judgment': function() {
     var rejected = [];
     $('.category').each(function() {
+      var $self = $(this);
+
       var r = [];
-      $(this).find('.rejected').each(function() {
-        r.push($(this).text());
+
+      $self.find('.rejected').each(function() {
+        r.push($self.text());
       });
       rejected.push(r);
     });
