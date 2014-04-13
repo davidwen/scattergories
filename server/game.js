@@ -5,29 +5,31 @@ categories = [];
 timer = 120;
 
 var setGameInterval = function(gameId) {
-  var game = Games.findOne(gameId);
+  var game = Games.findOne(gameId),
+      clock = game.clock,
+      readyClock = game.ready_clock;
 
-  // wind down the game clock
-  var clock = game.clock;
-  var readyClock = game.ready_clock;
   var interval = Meteor.setInterval(function () {
-      if (readyClock > 0) {
-        readyClock -= 1;
-      } else {
-        clock -= 1;
-      }
-      Games.update(gameId, {$set: {clock: clock, ready_clock: readyClock}});
+    if (readyClock > 0) {
+      readyClock -= 1;
+    } else {
+      clock -= 1;
+    }
 
-      // end of game
-      if (clock == -5) {
-        // stop the clock
-        Meteor.clearInterval(interval);
-        var game = Games.findOne(gameId);
-        if (game.state == 'active') {
-          forceJudgment(game);
-        }
+    Games.update(gameId, {$set: {clock: clock, ready_clock: readyClock}});
+
+    // end of game
+    if (clock == -5) {
+      var game = Games.findOne(gameId);
+
+      // stop the clock
+      Meteor.clearInterval(interval);
+
+      if (game.state == 'active') {
+        forceJudgment(game);
       }
-    }, 1000);
+    }
+  }, 1000);
 }
 
 Meteor.methods({
@@ -48,37 +50,41 @@ Meteor.methods({
 
     var players = Players.find({game_id: gameId},
                                {fields: {_id: true, name: true}}).fetch();
-    Games.update({_id: gameId}, {$set: {players: players}});
 
+    Games.update({_id: gameId}, {$set: {players: players}});
     setGameInterval(gameId);
     return gameId;
   },
 
   submitAnswers: function(playerId, gameId, answers) {
-    var game = Games.findOne(gameId);
-    var submittedAnswers = game.submitted;
-    var submitted = false;
+    var game = Games.findOne(gameId),
+        submittedAnswers = game.submitted,
+        submitted = false;
+
     for (var ii = 0, len = submittedAnswers.length; ii < len; ii++) {
       if (submittedAnswers[ii].player_id == playerId) {
         submitted = true;
         break;
       }
     }
+
     if (!submitted) {
       addAnswers(playerId, gameId, answers);
     }
   },
 
   submitJudgment: function(playerId, gameId, rejected) {
-    var game = Games.findOne(gameId);
-    var judgments = game.judgments;
-    var judged = false;
+    var game = Games.findOne(gameId),
+        judgments = game.judgments,
+        judged = false;
+
     for (var ii = 0, len = judgments.length; ii < len; ii++) {
       if (judgments[ii].player_id == playerId) {
         judged = true;
         break;
       }
     }
+
     if (!judged) {
       addJudgment(playerId, gameId, rejected);
     }
@@ -93,16 +99,16 @@ Meteor.methods({
 });
 
 Meteor.setInterval(function () {
-  var now = (new Date()).getTime();
-  var idleThreshold = now - 30*1000; // 30 sec
-  var removeThreshold = now - 60*60*1000; // 1 hr
-  var judgmentTheshold = now - 3*60*1000; // 2 min
+  var now = (new Date()).getTime(),
+      idleThreshold = now - 30*1000, // 30 sec
+      removeThreshold = now - 60*60*1000, // 1 hr
+      judgmentTheshold = now - 3*60*1000, // 2 min
+      games = Games.find({judgment_start: {$lt: judgmentTheshold}, state: 'judgment'}).fetch();
 
   Players.update({last_keepalive: {$lt: idleThreshold}},
                  {$set: {idle: true}},
                  {multi: true});
 
-  var games = Games.find({judgment_start: {$lt: judgmentTheshold}, state: 'judgment'}).fetch();
   for (var ii = 0, len = games.length; ii < len; ii++) {
     forceResult(games[ii]);
   }
@@ -113,8 +119,10 @@ Meteor.setInterval(function () {
 }, 30*1000);
 
 Meteor.startup(function () {
-  categories = JSON.parse(Assets.getText('categories.json'));
   var activeGames = Games.find({state: 'active'}).fetch();
+
+  categories = JSON.parse(Assets.getText('categories.json'));
+  
   for (var ii = 0, len = activeGames.length; ii < len; ii++) {
     setGameInterval(activeGames[ii]._id);
   }
