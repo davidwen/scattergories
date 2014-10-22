@@ -66,6 +66,10 @@ Template.lobby.waiting = function () {
   }
 };
 
+Template.lobby.username = function() {
+  return player() && player().name;
+};
+
 Template.lobby.events({
   'keyup #name-input': function (evt) {
     var name = $('#name-input').val().trim();
