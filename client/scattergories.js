@@ -40,7 +40,7 @@ Template.lobby.rendered = function() {
 }
 
 Template.lobby.disabled = function() {
-  return !(player() && player().name.length > 0);
+  return !(player() && player().name.length > 0) ? 'disabled' : '';
 }
 
 Template.lobby.show = function() {
@@ -127,7 +127,7 @@ Template.board.clock = function() {
 
     $('#answers').find('input').each(function() {
       answers.push($(this).val());
-      $(this).attr('disabled', 'disabled');
+      $(this).prop('disabled', true);
     });
 
     Meteor.call('submitAnswers', playerId(), g._id, answers);    
@@ -243,6 +243,10 @@ Template.judgment.duplicateClass = function() {
   return this.isDuplicate ? 'duplicate' : '';
 };
 
+Template.judgment.empty = function() {
+  return this.empty ? 'empty' : '';
+}
+
 Template.judgment.events({
   'click .category-answer': function(evt) {
     var $target = $(evt.target);
@@ -265,7 +269,7 @@ Template.judgment.events({
       var r = [];
 
       $self.find('.rejected').each(function() {
-        r.push($self.text());
+        r.push($(this).text());
       });
       rejected.push(r);
     });

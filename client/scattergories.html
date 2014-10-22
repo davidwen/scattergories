@@ -21,7 +21,7 @@
     <div class="title">Scattergories</div>
     <div class="header">Enter name:</div>
     <input type="text" id="name-input" class="form-control input-lg">
-    <button id="startgame" class="btn btn-lg btn-success" {{#if disabled}}disabled{{/if}}>
+    <button id="startgame" class="btn btn-lg btn-success" {{disabled}}>
       {{#if waiting}}Start Game{{else}}Play Solo{{/if}}
     </button>
     <div class="other-players">
@@ -49,7 +49,7 @@
     {{#if others}}
     <div class="sub-header">Playing with</div>
     {{#each others}}
-      <div class="player">{{.}}
+      <div class="player">{{.}}</div>
     {{/each}}
     {{/if}}
   </div>
@@ -73,7 +73,6 @@
       <div class="category">{{.}}</div>
       {{/each}}
     </div>
-    {{#constant}}
     <div id="answers">
       {{#each answers}}
       <div class="answer">
@@ -81,7 +80,6 @@
       </div>
       {{/each}}
     </div>
-    {{/constant}}
   </div>
   {{/if}}
 </template>
@@ -107,16 +105,14 @@
       - duplicate other answers in the category. <br><br>
       Click on an answer to reject it.
     </div>
-    {{#constant}}
     {{#each categories}}
-    <div class="category" {{#if empty}}style="display: none;"{{/if}}>
+    <div class="category {{empty}}">
       <div class="category-name">{{name}}</div>
       {{#each answers}}
       <div class="category-answer {{duplicateClass}}">{{value}}</div>
       {{/each}}
     </div>
     {{/each}}
-    {{/constant}}
     <button id="submit-judgment" class="btn btn-lg btn-success">Submit Judgment</button>
     {{/if}}
   </div>

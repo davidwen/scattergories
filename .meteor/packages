@@ -6,7 +6,6 @@
 standard-app-packages
 insecure
 jquery
-preserve-inputs
 
 bootstrap-3
 fastclick

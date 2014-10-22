@@ -213,6 +213,10 @@ $light-grey             : #ccc;
 
     .category {
         margin: 10px 0;
+
+        &.empty {
+            display: none;
+        }
     }
 
     .category-name {

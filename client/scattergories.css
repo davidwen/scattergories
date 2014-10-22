@@ -135,6 +135,8 @@
     margin-bottom: 10px; }
   #judgment .category {
     margin: 10px 0; }
+    #judgment .category.empty {
+      display: none; }
   #judgment .category-name {
     color: #555555;
     font-size: 20px;
