@@ -10,3 +10,5 @@ jquery
 percolatestudio:fastclick@0.6.7
 mizzao:bootstrap-3
 
+standard-minifier-css
+standard-minifier-js
