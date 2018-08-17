@@ -1,0 +1,24 @@
+{
+  "name": "scattergories",
+  "version": "1.0.0",
+  "description": "scattergories =============",
+  "main": "model.js",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.55"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidwen/scattergories.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidwen/scattergories/issues"
+  },
+  "homepage": "https://github.com/davidwen/scattergories#readme"
+}
